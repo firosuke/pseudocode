@@ -1,0 +1,6 @@
+PROGRAM ABBREVIATION
+1. DECLARE String countyName, countyAbbreviation;
+2. SET countyName = “Cheshire” ;
+3. SET countyAbbreviation = SUBSTRING(countyName, 0, 2) ;
+4. DISPLAY countyAbbreviation ;
+END

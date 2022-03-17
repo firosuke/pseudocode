@@ -1,0 +1,17 @@
+PROGRAM Average Exam Score
+1. DECLARE Double examScores[], averageScore ;
+2. DECLARE Integer counter, totalScore ;
+3. SET examScores [0] = 22 ;
+4. SET examScores [1] = 44 ;
+5. SET examScores [2] = 67 ;
+6. SET examScores [3] = 45 ;
+7. SET examScores [4] = 74 ;
+8. SET counter = 0 ;
+9. SET totalScore = 0 ;
+10. WHILE counter < LENGTH(examScores [])
+11. SET totalScore = totalScore + examScores [counter] ;
+12. SET counter = counter + 1 ;
+13. ENDWHILE
+14. SET averageScore = totalScore / LENGTH(examScores []) ;
+15. DISPLAY averageScore ;
+END

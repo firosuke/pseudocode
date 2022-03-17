@@ -1,0 +1,9 @@
+PROGRAM Exam Scores
+1. DECLARE Double examScores [] ;
+2. SET examScores [0] = 22 ;
+3. SET examScores [1] = 44 ;
+4. SET examScores [2] = 67 ;
+5. SET examScores [3] = 45 ;
+6. SET examScores [4] = 74 ;
+7. DISPLAY LENGTH(examScores[]);
+END

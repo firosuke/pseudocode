@@ -1,0 +1,9 @@
+PROGRAM INITIALS
+1. DECLARE String firstName, lastName, firstInitial, secondInitial, initials;
+2. SET firstName = “Patrick” ;
+3. SET lastName = “Bell” ;
+4. SET firstInitial = CHARAT(firstName, 0) ;
+5. SET secondInitial = CHARAT(lastName, 0) ;
+6. SET initials = CONCAT(firstInitial, secondInitial) ;
+7. DISPLAY initials ;
+END

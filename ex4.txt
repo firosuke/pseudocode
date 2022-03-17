@@ -1,0 +1,16 @@
+PROGRAM Populate Scores Array
+1. DECLARE Double examScores [] ;
+2. DECLARE Integer counter ;
+3. SET counter = 0 ;
+4. OPEN “exam-scores.xml” ;
+5. READ line ;
+DISPLAY line ;
+5. WHILE line != "END"
+6. SET examScores[counter] = line ;
+7. SET counter = counter + 1 ;
+5. READ line ;
+DISPLAY line ;
+8. ENDWHILE
+9. CLOSE “exam-scores.xml” ;
+2. DISPLAY examScores
+END
