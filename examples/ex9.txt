@@ -3,10 +3,10 @@ PROGRAM SCORE AVERAGE
 2. DECLARE Integer numPurchased ;
 3. DECLARE Double totalPrice ;
 4. OPEN “priceIndex.xml” ;
-5. READ product price ;
+5. READ productPrice ;
 // product price is stored as a string value in the file
 6. CLOSE “priceIndex.xml” ;
-7. SET productPrice = product price ;
+7. SET productPrice = productPrice ;
 8. GET numPurchased ;
 9. SET totalPrice = productPrice * numPurchased ;
 // Cannot multiply integer and string

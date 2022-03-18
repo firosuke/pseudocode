@@ -1,0 +1,11 @@
+PROGRAM FUEL LEVEL
+1. DECLARE Constant Integer tankCapacity, reserveLevel ;
+2. DECLARE Double currentLevel, percentRemaining ;
+3. SET tankCapacity = 100 ;
+4. SET reserveLevel = 10 ;
+5. GET currentLevel ; // From Sensor
+6. SET percentRemaining = (currentLevel / tankCapacity) * 100 ;
+7. DISPLAY “Current Fuel Level is ” + ROUND(percentRemaining, 0) + “ percent” ;
+8. IF percentRemaining < 10
+9. DISPLAY “Warning. Reserve Fuel Level” ;
+10. ENDIF

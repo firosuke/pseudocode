@@ -1,34 +1,25 @@
-from argparse import ArgumentParser
+#from argparse import ArgumentParser
 import re
 
+## Parse command line arguments
 
-####################### Constants #######################
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--verbosity", help="increase output verbosity")
+args = parser.parse_args()
+if args.verbosity:
+    print("verbosity turned on")
 
-# Some colors for warnings
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+parser = argparse.ArgumentParser()
+parser.add_argument("--src", help="path to pseudocode source file")
+parser.add_argument("--dst", help="path to python destination file")
+args = parser.parse_args()
+print(args)
+src = args.src if args.src else "./input.txt"
+dst = args.dst if args.dst else "./output.py"
 
+## Pre-processing of input lines
 
-# Map of lowercase pseudocode type names, to their python equivalents
-typeMap = {
-	"integer":"int", 
-	"double":"float", 
-	"float":"float",
-	"boolean":"bool",
-	"character":"str",
-	"string":"str"
-	}
-
-
-# List of simple translations from pseudocode to python
 replacements = [
 	("\t", ""),
 	("“", '"'), # Replace weird quotation marks
@@ -55,27 +46,51 @@ replacements = [
 	("(Double)", "float"), # As above
 ]
 
+# A crude way to allow array assignment without allocation, e.g. SET x[100] = 42,
+# is to secretly make them Python dictionaries!
+# Search all lines for such assignments to arrays, and begin the program by
+# initialising those variables to empty dictionaries: e.g. x = {}.
 
-# Some regular expressions
+arrayVars = set()
+r = re.compile(r"SET\s+([^\[=]*)\[")
 
-reFlags = re.VERBOSE # Allows whitespace in regexes. Also can add: "| re.IGNORECASE"
+program = []
+print("Pre-processing input lines...")
+with open(src, "r") as filePointer:
+	for line in filePointer:		
+		# Remove trailing comments
+		line = re.sub("//.*$", "", line)
+		line = re.sub("#.*$", "", line)
 
-rSetArray = re.compile(r"SET \s+ (\w+) \[", reFlags) # regex for SET array command
+		# Remove initial spaces, line number, and trailing spaces
+		line = re.sub("^\s*[0-9]*\.?\s*", "", line)
 
-# regex for first part of DECLARE commands: everything up to the first comma
-reFirst = re.compile("""
-		DECLARE 							# Start of DECLARE statement
-	\s+	(?: CONSTANT | CONST )?				# (We ignore constants)
-	\s* ( \w+ )								# Type
-	\s+ ( \w+ )(?: \s* \[ \s* \] )?			# Variable name, possibly with [] if array
-	\s* """, reFlags)
+		# Remove final ; or : and any final spaces or newline
+		line = re.sub("\s*[;:]\s*$", "", line)
 
-# regex for each (comma-separated) remaining part of a DECLARE command
-# (same as "variable name" in reFirst above)
-reRest = re.compile(""" \s* ( \w+ )(?: \s* \[ \s* \] )? \s* """, reFlags)
+		# Handle LENGTH
+		# Remove gratuitous "[]" and its pre/mid/post whitespace in LENGTH(variable [] )
+		line = re.sub("LENGTH\(([^\[\s]*)\s*\[\s*\]\s*\)", "LENGTH(\\1)", line) # Don't try to read this...
+		line = line.replace("LENGTH", "len")
+
+		# If it's an assignment to an array, add to the set of array variable names
+		match = r.match(line)
+		if match:
+			varname = match.group(1).strip()
+			if varname not in arrayVars:
+				print("Array variable found:", varname)
+			arrayVars.add(varname)
+
+		# Finally, go through the list of replacements
+		for (old, new) in replacements:
+			line = line.replace(old, new)
+
+		print("Input:  ", line)
+		# Now add the processed line to the list
+		program.append(line)
 
 
-# Preamble for generated python file
+## Create the output file, line by line
 
 preamble = """### Implementations of pseudocode methods in Python (ignore this part) ###
 
@@ -95,106 +110,9 @@ def substr(s, a, b):
 
 def random(a, b):
 	return randrange(a, b + 1)
-
-print("(Remember to re-run 'pseudo.py' if you edit the source pseudocode!)")
 """
 
-
-####################### Parse command line arguments #######################
-
-print("Parsing command-line arguments...")
-
-parser = ArgumentParser()
-parser.add_argument("src", nargs="?", help="path to pseudocode source file")
-parser.add_argument("dst", nargs="?", help="path to python destination file")
-args = parser.parse_args()
-
-if not args.src:
-	print("No source given, going to try and read from file: input.txt")
-	src = "input.txt"
-else:
-	print(f"Going to try and read from file: {args.src}")
-	src = args.src
-
-if not args.dst:
-	print("No destination given, going to try and write to file: output.py")
-	dst = "output.py"
-else:
-	print(f"Going to try and write to file: {args.dst}")
-	dst = args.dst
-
-
-####################### Pre-processing of input lines #######################
-
-print(f"Reading and processing input from {src}...")
-
-# A crude way to allow array assignment without allocation, e.g. SET x[100] = 42,
-# is to secretly make them Python dictionaries!
-# Search all lines for such assignments to arrays, and begin the program by
-# initialising those variables to empty dictionaries: e.g. x = {}.
-
-varTypes = {}
-arrayVars = set()
-
-program = []
-lineNum = 0
-with open(src, "r") as filePointer:
-	for line in filePointer:
-		lineNum += 1
-		# Remove trailing comments
-		line = re.sub("//.*$", "", line)
-		line = re.sub("#.*$", "", line)
-
-		# Remove initial spaces, line number, and trailing spaces
-		line = re.sub("^\s*\d*[.:]?\s*", "", line)
-
-		# Remove final ; or : and any final spaces or newline
-		line = re.sub("\s*[;:]\s*$", "", line)
-
-		# Handle LENGTH
-		# Remove gratuitous "[]" and its pre/mid/post whitespace in LENGTH(variable [] )
-		line = re.sub("LENGTH\(([^\[\s]*)\s*\[\s*\]\s*\)", "LENGTH(\\1)", line) # Don't try to read this...
-		line = line.replace("LENGTH", "len")
-
-		# If it's a variable declaration, record those types for the variables
-		# (Arrays treated the same as non-arrays) This is used when GETting into
-		# the variables, so that the incoming string can be converted to the
-		# appropriate type
-		if line.startswith("DECLARE"):
-			firstPart, *rest = line.split(sep=",")
-			varType, firstVarName = reFirst.match(firstPart).groups()
-			otherVarNames = list(map(lambda x: reRest.match(x).groups()[0], rest))
-
-			for varName in [firstVarName] + otherVarNames:
-				if varType.lower() not in typeMap.keys():
-					print(f"Line {lineNum}: Did not recognise variable type {varType}")
-					print("Expected (some capitalisation of): " + ", ".join(list(typeMap.keys())))
-					exit(1)
-				varTypes[varName] = typeMap[varType.lower()]
-
-		# If it's an assignment to an array, add to the set of array variable names
-		match = rSetArray.match(line)
-		if match:
-			varname = match.group(1).strip()
-			#if varname not in arrayVars:
-			#	print("Array variable found:", varname)
-			arrayVars.add(varname)
-
-		# Finally, go through the list of replacements
-		for (old, new) in replacements:
-			line = line.replace(old, new)
-
-		#print("Input:  ", line)
-
-		# Now add the processed line to the list
-		program.append(line)
-
-
-####################### Create output file #######################
-
-print("Creating output file...")
-
-# Start with the preamble (built-in methods, etc)...
+# Start with the preamble (built-in methods)...
 outputLines = [preamble]
 
 # Initialise the fake arrays which are actually dictionaries (see comment above)
@@ -237,10 +155,7 @@ for line in program:
 		output = re.sub('\s*\+\s*("[^"]*?")', ', \\1', line)
 	elif line.startswith("GET"):
 		variable = line.replace("GET", "").strip()
-		if variable not in varTypes:
-			print(f"{bcolors.WARNING}Warning: Line {lineNum}: GETting user input to variable {variable} with no declared type (assuming String){bcolors.ENDC}")
-			varTypes[variable] = "str"
-		output = f"{variable} = {varTypes[variable]}(input('(Type in value for {variable} and press Enter): '))"
+		output = f"{variable} = input('(Type in value for {variable} and press Enter): ')"
 	elif line.startswith("SET"):
 		output = line.replace("SET", "").strip()
 	elif line.startswith("OPEN"):
@@ -266,10 +181,7 @@ for line in program:
 		else:
 			output = []
 		variable = line.replace("READ", "").strip()
-		if variable not in varTypes:
-			print(f"{bcolors.WARNING}Warning: Line {lineNum}: Reading from file into variable {variable} with no declared type (assuming String){bcolors.ENDC}")
-			varTypes[variable] = "str"
-		output.append(f"{variable} = {varTypes[variable]}(fp.readline().replace('\\n', ''))")
+		output.append(f"{variable} = fp.readline().replace('\\n', '')")
 	elif line.startswith("WRITE"):
 		if filePath == None:
 			print("Error on line {lineNum}: Trying to WRITE data but it seems no file is OPEN")
@@ -313,13 +225,17 @@ for line in program:
 			outputLines.append(indent + outputLine)
 
 
-####################### Write output to destination path #######################
-
-print(f"Writing output file to {dst}...")
+## Write the resulting lines to the destination path
 
 with open(dst, "w") as filePointer:
 	for outputLine in outputLines:
-		#print("Output: ", outputLine)
+		print("Output: ", outputLine)
 		filePointer.write(outputLine + "\n")
 
-print(f'Done. You can now run: "python {dst}" ')
+
+
+
+
+
+
+

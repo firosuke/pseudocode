@@ -1,0 +1,13 @@
+PROGRAM CALCULATE INTEREST
+1. DECLARE CONSTANT Double interestRate ;
+2. DECLARE Integer durationOfLoan ;
+3. DECLARE Double amountLoaned, interest ;
+4. SET interestRate = 1.15 ;
+5. OPEN “examples/price-index.xml” ;
+6. READ amount ;
+7. SET amountLoaned = amount ;
+8. READ duration ;
+9. SET durationOfLoan = duration ;
+10. CLOSE “examples/price-index.xml” ;
+11. SET interest = (amountLoaned * interestRate * durationOfLoan) / 100 ;
+END

@@ -1,12 +1,11 @@
 PROGRAM SCORE AVERAGE
-1. DECLARE String productPrice ;
 2. DECLARE Integer numPurchased ;
 3. DECLARE Double totalPrice ;
-4. OPEN “priceIndex.xml” ;
+4. OPEN “examples/priceIndex.xml” ;
 5. READ productPrice ;
-6. CLOSE “priceIndex.xml” ;
+6. CLOSE “examples/priceIndex.xml” ;
 8. GET numPurchased ;
-9. SET totalPrice = (Double) (productPrice) * (Integer) (numPurchased) ;
+9. SET totalPrice = productPrice * numPurchased ;
 // Forces string type into double type
 10. DISPLAY “The total price is ” + totalPrice ;
 END
