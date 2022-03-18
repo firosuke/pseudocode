@@ -46,16 +46,17 @@ python pseudo.py (path to your source file) (destination file)
 For example:
 python pseudo.py examples/ex12.txt simple-interest.py
 
-If you leave out the source file, it will look for "input.txt" in the current folder.
 If you leave out the destination file, it will write the generated python code into "output.py" as described above.
 
 In the above example, you would then run:
 
 python simple-interest.py
 
+(Lastly, if you don't specify the source pseudocode, it defaults to "input.txt" in the current folder.)
+
 ## Supported Pseudocode
 
-- DECLARE (CONSTANT/CONST) <type> <variable> (can be followed by: , <variable>, <variable>, ...)
+- DECLARE (CONSTANT/CONST) (type) (variable) (can be followed by: , (variable), (variable), ...)
 - DISPLAY "this string" + some expression + "that string", etc. (Essentially reduced to "print" in python.)
 - IF condition, ELSE IF, ELSE, ENDIF
 - WHILE condition, ENDWHILE
