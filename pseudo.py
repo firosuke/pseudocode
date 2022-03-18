@@ -332,6 +332,10 @@ if ifLevel > 0 or whileLevel > 0:
 	print(f"{bcolors.FAIL}Error: Program is missing an ENDIF or ENDWHILE.{bcolors.ENDC}")
 	exit(1)
 
+if filePath != None:
+	print(f"{bcolors.FAIL}Error: Program did not CLOSE the open file: {filePath}.{bcolors.ENDC}")
+	exit(1)
+
 
 ####################### Write output to destination path #######################
 
