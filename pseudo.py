@@ -229,7 +229,7 @@ for line in program:
 	
 	# Create a single output line, or a list of lines (see READ/WRITE) from this line
 	if line.startswith("DECLARE") or line.startswith("#") or line.startswith("PROGRAM") or line.strip() == "END" or line.startswith("START") or line.startswith("BEGIN"):
-		output = f"# Ignored: {line}"
+		output = ""
 	elif line == "" or line.isspace(): # Empty line
 		output = ""
 	elif line.startswith("DISPLAY"):
