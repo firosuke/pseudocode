@@ -81,7 +81,7 @@ Variable names are allowed to contain upper- and lower-case letters, and numbers
 Strings are expected to appear in double quotes "" (or the fancier quotes “”). You might get away with single quotes.
 
 The datatypes mentioned in the course are: Boolean, String, Double (i.e. "float" or decimal), Integer, Character.
-(These are translated into python as: bool, str, float, float, int, str.)
+(These are translated into python as: bool, str, float, int, str.)
 
 For simplicity, line numbers, end-of-line semicolons, spacing, and CONSTANT declarations are ignored or removed.
 That doesn't mean you should leave them out of your pseudocode :-)
