@@ -106,4 +106,5 @@ DISPLAY "Hello " + 4 + " my " + False
 Note that Strings are joined (and also concatenated) without spaces, so if you want them, you have to add them yourself:
 
 DISPLAY "a" + "b" + "c!"     -----> displays "abc!"
+
 DISPLAY "a " + " b " + " c!" -----> displays "a b c!"
