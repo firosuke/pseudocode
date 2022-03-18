@@ -10,7 +10,10 @@ The displayed error might give you a clue about the problem. If not, try to cont
 
 ## How to use
 
-You can download the files from this repo as a .ZIP file, and unpack it on your computer.
+You can download the files from this repo as a ZIP file. (If you are viewing this in GitHub, click on the "Code" button above-right, and then click "Download as ZIP".) You should be able to open the ZIP file on your computer and/or extract it to a convenient location.
+(Or if you have git installed on your computer, from the command prompt / shell, run: git clone https://github.com/firosuke/pseudocode/)
+
+If all else fails, just click on pseudo.py file and copy-paste the code, save it onto your computer.
 The only essential file is the Python script, pseudo.py. (There are some example pseudocode files and example data in the examples folder.)
 
 Run the script like this, from your terminal (Linux/Mac) or command prompt (Windows) after navigating to the folder where you have placed pseudo.py:
