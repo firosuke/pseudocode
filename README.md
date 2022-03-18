@@ -58,7 +58,7 @@ python simple-interest.py
 ## Supported Pseudocode
 
 - DECLARE (CONSTANT/CONST) (type) (variable) (can be followed by: , (variable), (variable), ...)
-- DISPLAY "this string" + some expression + "that string", etc. (Essentially reduced to "print" in python.)
+- DISPLAY "this string" + some expression + "that string", etc. (See below)
 - IF condition, ELSE IF, ELSE, ENDIF
 - WHILE condition, ENDWHILE
 - SET variable = expression
@@ -99,7 +99,7 @@ After you OPEN a file, you can either READ or WRITE, but not both. When you no l
 You can put values into an array simply by assigning them directly: e.g. SET names[25] = "Adam". 
 (*Aside: Most programming languages don't let you do this. You have to initialise the array. But we can get around this detail by secretly using Python dictionaries to represent arrays, because if a dictionary doesn't yet have a key (e.g. 25 above), when we do the assignment, it will simply create the new key.*)
 
-In a DISPLAY command, you can join any kind of data together with +:
+DISPLAY commands are essentially reduced to "print" statements in python. In a DISPLAY command, you can join any kind of data together with +:
 
 DISPLAY "Hello " + 4 + " my " + False
 
