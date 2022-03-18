@@ -291,15 +291,27 @@ for line in program:
 		ifLevel += 1
 		output = line.replace("IF", "if").strip() + ":" # Extra space in case of trailing brackets
 	elif line.startswith("ELSE"):
+		if ifLevel == 0:
+			print(f"{bcolors.FAIL}Error on line {lineNum}: ELSE with no preceding IF.{bcolors.ENDC}")
+			exit(1)
 		output = "else:"
 		indentLevel -= 1
 	elif line.startswith("ELIF"):
+		if ifLevel == 0:
+			print(f"{bcolors.FAIL}Error on line {lineNum}: ELSEIF with no preceding IF.{bcolors.ENDC}")
+			exit(1)
 		output = line.replace("ELIF", "elif")
 		indentLevel -= 1
 	elif line.startswith("ENDIF"):
-		output = ""
+		if ifLevel == 0:
+			print(f"{bcolors.FAIL}Error on line {lineNum}: ENDIF with no preceding IF.{bcolors.ENDC}")
+			exit(1)
 		ifLevel -= 1
+		output = ""
 	elif line.startswith("ENDWHILE"):
+		if whileLevel == 0:
+			print(f"{bcolors.FAIL}Error on line {lineNum}: ENDWHILE with no preceding WHILE.{bcolors.ENDC}")
+			exit(1)
 		output = ""
 		whileLevel -= 1
 	else:
@@ -314,6 +326,11 @@ for line in program:
 	for outputLine in output:
 		if outputLine != "":
 			outputLines.append(indent + outputLine)
+
+# If we end the program inside an IF or WHILE, that's an error
+if ifLevel > 0 or whileLevel > 0:
+	print(f"{bcolors.FAIL}Error: Program is missing an ENDIF or ENDWHILE.{bcolors.ENDC}")
+	exit(1)
 
 
 ####################### Write output to destination path #######################
