@@ -37,9 +37,11 @@ Note that if there are something wrong, Python will get confused and you will se
 - DISPLAY "this string" + some expression + "that string", etc. (Essentially reduced to "print" in python.)
 - IF condition, ELSE IF, ELSE, ENDIF
 - WHILE condition, ENDWHILE
-- SET <variable> = <expression>
-- GET <variable>
-- OPEN "your-file-path"
+- SET variable = expression
+- GET variable
+- OPEN "your-file-path" (see note below)
+- READ variable
+- WRITE variable
 - CLOSE "your-file-path"
 - Boolean operators AND, OR, NOT; and values True or False
 - ROUND(number, decimalPlaces)
@@ -62,7 +64,7 @@ That doesn't mean you should leave them out of your pseudocode :-)
 
 Keywords like GET and READ are expected to be in capitals as shown below.
 Types and values like Boolean, String, True, False... are expected to have this capitalisation.
-  
+
 You can GET or READ into one cell of an array. For example: "GET scores[0]". Or, "READ name[i]".
 
 If you GET user input into a variable, or READ a file into a variable, that variable should have a declared type. The generated script will try to get one line of input from a file (READ) or the user (GET), and convert it to that type. If no type is declared, the script will display a warning that we are assuming it is a string (which may not be what you want).
