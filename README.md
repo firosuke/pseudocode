@@ -16,27 +16,47 @@ You can download the files from this repo as a ZIP file. (If you are viewing thi
 If all else fails, just click on pseudo.py file and copy-paste the code, save it onto your computer.
 The only essential file is the Python script, pseudo.py. (There are some example pseudocode files and example data in the examples folder.)
 
-Run the script like this, from your terminal (Linux/Mac) or command prompt (Windows) after navigating to the folder where you have placed pseudo.py:
+### Convenient way
+
+I find the most convenient way to use it is this. From your terminal (Linux/Mac) or command prompt (Windows), navigate to the folder where you have placed pseudo.py, and run:
+
+python pseudo.py (pseudocode file name)
+
+for example:
+
+python pseudo.py examples/ex12.txt
+
+By defaul
+It will display some information about what it is doing while it runs.
+If successful, it will put the generated python code in a file. By default, it goes into output.py in the current folder.
+You can then run the generated python script. For example:
+
+python output.py
+
+If the conversion went well, you will see your pseudocode in action.
+
+Note that if there are something wrong, Python will get confused and you will see Python errors. As mentioned above, this may happen if you don't type the pseudocode in a particular way that this script recognises: see "Supported Pseudocode" below. If you think you've done it correctly, there may be a problem or unmentioned limitation of this script -- let me know.
+
+###  Custom output location
+
+If you want to specify the output file yourself, you can run the script like this:
 
 python pseudo.py (path to your source file) (destination file)
 
 For example:
 python pseudo.py examples/ex12.txt simple-interest.py
 
-If you leave out the source file, it will look for "input.txt" in the current folder. 
-If you leave out the destination file, it will write the generated python code into "output.py".
+If you leave out the destination file, it will write the generated python code into "output.py" as described above.
 
-It will display some information about what it is doing while it runs.
-If successful, you can try to run the generated python script. For example:
+In the above example, you would then run:
 
 python simple-interest.py
 
-If the conversion went well, you will see your pseudocode in action.
-Note that if there are something wrong, Python will get confused and you will see Python errors. As mentioned above, this may happen if you don't type the pseudocode in a particular way that this script recognises: see "Supported Pseudocode" below. If you think you've done it correctly, there may be a problem or unmentioned limitation of this script -- let me know.
+(Lastly, if you don't specify the source pseudocode, it defaults to "input.txt" in the current folder.)
 
 ## Supported Pseudocode
 
-- DECLARE (CONSTANT/CONST) <type> <variable> (can be followed by: , <variable>, <variable>, ...)
+- DECLARE (CONSTANT/CONST) (type) (variable) (can be followed by: , (variable), (variable), ...)
 - DISPLAY "this string" + some expression + "that string", etc. (Essentially reduced to "print" in python.)
 - IF condition, ELSE IF, ELSE, ENDIF
 - WHILE condition, ENDWHILE
@@ -54,7 +74,7 @@ Note that if there are something wrong, Python will get confused and you will se
 - SUBSTRING(string, start, end) (including the end index)
 - Type conversions: (String), (Integer), (Double), (Boolean), followed by an expression which must be in brackets. E.g.: (Integer)(stockPrice)
 
-Notes:
+## Notes (please read!):
   
 Variable names are allowed to contain upper- and lower-case letters, and numbers, and underscore. Nothing else -- in particular, no spaces.
 Strings are expected to appear in double quotes "" (or the fancier quotes “”). You might get away with single quotes.
