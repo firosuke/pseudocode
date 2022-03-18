@@ -5,8 +5,7 @@ This is a script to convert pseudocode (as taught at Birkbeck College London) in
 It is not complete, but it should work for "simple" pseudocode.
 There is a limited set of pseudocode commands it can recognise. These are described below in the section "Supported Pseudocode". If you don't type these as specified, it may fail.
 
-If there are errors in the pseudocode, the conversion will fail with some Python errors. 
-The displayed error might give you a clue about the problem. If not, try to contact me.
+If there are errors in the pseudocode, the conversion can catch some of them (e.g. an IF without an ENDIF) but it will not catch others (otherwise the script would get even more complicated... and I have other things to do :-) Most likely, if there is a problem in the pseudocode, the conversion will fail with some Python errors. The displayed error might give you a clue about the problem. If the following notes (or the script itself) don't help you to understand the issue, try to contact me.
 
 ## How to use
 
