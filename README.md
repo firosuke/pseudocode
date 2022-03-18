@@ -77,27 +77,45 @@ python simple-interest.py
 
 ## Notes (please read!):
   
+### General syntax
+
+Keywords like GET and READ are expected to be in capitals as shown above.
+
 Variable names are allowed to contain upper- and lower-case letters, and numbers, and underscore. Nothing else -- in particular, no spaces.
 Strings are expected to appear in double quotes "" (or the fancier quotes “”). You might get away with single quotes.
 
+### Types
+
 The datatypes mentioned in the course are: Boolean, String, Double (i.e. "float" or decimal), Integer, Character.
-(These are translated into python as: bool, str, float, int, str.)
+*(Aside: These are translated into python as: bool, str, float, int, str.)*
+
+Types like Boolean, String, Character, and Boolean values True, False, are expected to have this capitalisation (first letter upper-case, others lower-case).
 
 For simplicity, line numbers, end-of-line semicolons, spacing, and CONSTANT declarations are ignored or removed.
 That doesn't mean you should leave them out of your pseudocode :-)
 
-Keywords like GET and READ are expected to be in capitals as shown below.
-Types and values like Boolean, String, True, False... are expected to have this capitalisation.
+### Arrays
 
-You can GET or READ into one cell of an array. For example: "GET scores[0]". Or, "READ name[i]".
+Variables can be arrays. You can declare them as in this example:
+
+DECLARE Double totalWeight, weights[], averageWeight
+
+Here, totalWeight and averageWeight are Doubles, and weights is an array of Doubles.
+You can access the value at position i in the array like this: weights[i].
+
+You can put values into an array simply by assigning them directly: e.g. SET names[25] = "Adam". 
+(*Aside: Most programming languages don't let you do this. You have to initialise the array. But we can get around this detail by secretly using Python dictionaries to represent arrays, because if a dictionary doesn't yet have a key (e.g. 25 above), when we do the assignment, it will simply create the new key.*)
+
+### Input and Output
 
 If you GET user input into a variable, or READ a file into a variable, that variable should have a declared type. The generated script will try to get one line of input from a file (READ) or the user (GET), and convert it to that type. If no type is declared, the script will display a warning that we are assuming it is a string (which may not be what you want).
+
+You can GET or READ into one cell of an array. For example: "GET scores[0]". Or, "READ name[i]".
 
 After you OPEN a file, you can either READ or WRITE, but not both. When you no longer need it, you should CLOSE the file. (You can OPEN it again if you need to either READ or WRITE again.) For simplicity, you can only open one file at a time, and each OPEN should be followed by a matching CLOSE, simply the next one in the file.
 (*Aside: In Python you have to decide when you open a file, whether you want to read or write from it. But in pseudocode, we ignore this detail. So the conversion has to do some extra work to allow it.*)
 
-You can put values into an array simply by assigning them directly: e.g. SET names[25] = "Adam". 
-(*Aside: Most programming languages don't let you do this. You have to initialise the array. But we can get around this detail by secretly using Python dictionaries to represent arrays, because if a dictionary doesn't yet have a key (e.g. 25 above), when we do the assignment, it will simply create the new key.*)
+### DISPLAY commands
 
 DISPLAY commands are essentially reduced to "print" statements in python. In a DISPLAY command, you can join any kind of data together with +:
 
