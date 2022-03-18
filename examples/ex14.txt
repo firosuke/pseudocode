@@ -1,0 +1,15 @@
+DECLARE Integer currentIndex, xCount
+DECLARE String stringInput
+DECLARE Character currentChar
+GET stringInput
+SET currentIndex = 0
+SET xCount = 0
+WHILE currentIndex < LENGTH(stringInput)
+	SET currentChar = CHARAT(stringInput, currentIndex) ;
+	DISPLAY currentChar ;
+	IF currentChar == "X"
+		SET xCount = xCount + 1 ;
+	ENDIF ;
+	SET currentIndex = currentIndex + 1 ;
+ENDWHILE ;
+DISPLAY "Your string contains " + xCount + " Xs" ;

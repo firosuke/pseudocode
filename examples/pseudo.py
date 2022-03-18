@@ -68,10 +68,12 @@ with open(src, "r") as filePointer:
 		# Remove final ; or : and any final spaces or newline
 		line = re.sub("\s*[;:]\s*$", "", line)
 
+		print("line before:", line)
 		# Handle LENGTH
 		# Remove gratuitous "[]" and its pre/mid/post whitespace in LENGTH(variable [] )
-		line = re.sub("LENGTH\(([^\[\s]*)\s*\[\s*\]\s*\)", "LENGTH(\\1)", line) # Don't try to read this...
+		line = re.sub("LENGTH\s*\(\s*(\w*)\s*\[\s*\]\s*\)", "LENGTH(\\1)", line) # Don't try to read this...
 		line = line.replace("LENGTH", "len")
+		print("line after:", line, "\n")
 
 		# If it's an assignment to an array, add to the set of array variable names
 		match = r.match(line)

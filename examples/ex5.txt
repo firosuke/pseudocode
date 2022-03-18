@@ -1,10 +1,8 @@
 PROGRAM FULL NAME
 1. DECLARE String firstName, lastName, space, fullName ;
-2. DISPLAY “Enter First Name” ;
 3. GET firstName ;
-4. DISPLAY “Enter Last Name” ;
 5. GET lastName ;
 6. SET space = “ ”;
 7. SET fullName = CONCAT(firstName, space, lastName) ;
-8. DISPLAY CONCAT(“Patient Full Name is: ”, fullName) ;
+8. DISPLAY “Patient Full Name is: ” + fullName ;
 END

@@ -1,0 +1,15 @@
+DECLARE String letters[], concatString
+DECLARE Integer i
+SET letters[0] = "A"
+SET letters[1] = "B"
+SET letters[2] = "C"
+SET letters[3] = "D"
+SET letters[4] = "E"
+SET i = 0
+SET concatString = ""
+WHILE i < LENGTH(letters[])
+	SET concatString = CONCAT(concatString, letters[i])
+	SET i = i + 1
+ENDWHILE
+DISPLAY "Concatenated string: " + concatString
+DISPLAY "There are " + i + " letters total"

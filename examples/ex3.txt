@@ -9,9 +9,10 @@ PROGRAM Average Exam Score
 8. SET counter = 0 ;
 9. SET totalScore = 0 ;
 10. WHILE counter < LENGTH(examScores [])
-11. SET totalScore = totalScore + examScores [counter] ;
-12. SET counter = counter + 1 ;
+11.		DISPLAY "Read score: " + examScores[counter] ;
+11. 	SET totalScore = totalScore + examScores [counter] ;
+12. 	SET counter = counter + 1 ;
 13. ENDWHILE
 14. SET averageScore = totalScore / LENGTH(examScores []) ;
-15. DISPLAY averageScore ;
+15. DISPLAY "Average of scores is: " + averageScore ;
 END

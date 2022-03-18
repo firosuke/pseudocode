@@ -155,7 +155,7 @@ with open(src, "r") as filePointer:
 
 		# Handle LENGTH
 		# Remove gratuitous "[]" and its pre/mid/post whitespace in LENGTH(variable [] )
-		line = re.sub("LENGTH\(([^\[\s]*)\s*\[\s*\]\s*\)", "LENGTH(\\1)", line) # Don't try to read this...
+		line = re.sub("LENGTH\s*\(\s*(\w*)\s*\[\s*\]\s*\)", "LENGTH(\\1)", line)
 		line = line.replace("LENGTH", "len")
 
 		# If it's a variable declaration, record those types for the variables

@@ -5,5 +5,5 @@ PROGRAM INITIALS
 4. SET firstInitial = CHARAT(firstName, 0) ;
 5. SET secondInitial = CHARAT(lastName, 0) ;
 6. SET initials = CONCAT(firstInitial, secondInitial) ;
-7. DISPLAY "Initials of" + firstName + " " + lastName + "are: " + initials ;
+7. DISPLAY "Initials of " + firstName + " " + lastName + " are: " + initials ;
 END

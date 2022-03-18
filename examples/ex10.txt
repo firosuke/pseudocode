@@ -3,7 +3,7 @@ PROGRAM SCORE AVERAGE
 3. DECLARE Double totalPrice, productPrice ;
 4. OPEN “examples/priceIndex.xml” ;
 5. READ productPrice ;
-6. DISPLAY "Product price is" + productPrice ;
+6. DISPLAY "Product price is " + productPrice ;
 6. CLOSE “examples/priceIndex.xml” ;
 8. GET numPurchased ;
 9. SET totalPrice = productPrice * numPurchased ;

@@ -5,5 +5,5 @@ PROGRAM Exam Scores
 4. SET examScores [2] = 67 ;
 5. SET examScores [3] = 45 ;
 6. SET examScores [4] = 74 ;
-7. DISPLAY LENGTH(examScores[]);
+7. DISPLAY "Length of array is: " + LENGTH( examScores [ ] ); // Some random spaces
 END

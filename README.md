@@ -5,7 +5,9 @@ This is a script to convert pseudocode (as taught at Birkbeck College London) in
 It is not complete, but it should work for "simple" pseudocode.
 There is a limited set of pseudocode commands it can recognise. These are described below in the section "Supported Pseudocode". If you don't type these as specified, it may fail.
 
-If there are errors in the pseudocode, the conversion can catch some of them (e.g. an IF without an ENDIF) but it will not catch others (otherwise the script would get even more complicated... and I have other things to do :-) Most likely, if there is a problem in the pseudocode, the conversion will fail with some Python errors. The displayed error might give you a clue about the problem. If the following notes (or the script itself) don't help you to understand the issue, try to contact me.
+If there are errors in the pseudocode, the conversion can catch some of them (e.g. an IF without an ENDIF) but it will not catch others (e.g. an ELSEIF after an ELSE, within the same IF statement), otherwise the script would have to do more complicated checks... and I have other things to do :-) 
+
+Most likely, if there is a problem in the pseudocode, the conversion will fail with some Python errors. The displayed error might give you a clue about the problem, but you might have to look back at the pseudocode to find it. If the following notes (or the script itself) don't help you to understand the issue, try to contact me.
 
 ## How to use
 
@@ -97,3 +99,11 @@ After you OPEN a file, you can either READ or WRITE, but not both. When you no l
 You can put values into an array simply by assigning them directly: e.g. SET names[25] = "Adam". 
 (*Aside: Most programming languages don't let you do this. You have to initialise the array. But we can get around this detail by secretly using Python dictionaries to represent arrays, because if a dictionary doesn't yet have a key (e.g. 25 above), when we do the assignment, it will simply create the new key.*)
 
+In a DISPLAY command, you can join any kind of data together with +:
+
+DISPLAY "Hello " + 4 + " my " + False
+
+Note that Strings are joined (and also concatenated) without spaces, so if you want them, you have to add them yourself:
+
+DISPLAY "a" + "b" + "c!"     -----> displays "abc!"
+DISPLAY "a " + " b " + " c!" -----> displays "a b c!"

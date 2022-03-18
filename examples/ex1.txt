@@ -19,7 +19,7 @@ WHILE repeat;
 	ENDIF;
 ENDWHILE;
 IF found
-	DISPLAY CONCAT("Found ", userChr, " at position ", currentIndex);
+	DISPLAY "Found " + userChr + " at position " + currentIndex;
 ELSE
-	DISPLAY CONCAT("Did not find", userChr)
+	DISPLAY "Did not find" + userChr
 ENDIF;

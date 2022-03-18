@@ -8,5 +8,5 @@ PROGRAM CALCULATE SIMPLE INTEREST
 8. READ duration ;
 10. CLOSE “examples/interest.xml” ;
 11. SET interest = (amount * interest * duration) ;
-12. DISPLAY "Simple interest on " + amount + " for " + duration + "years is:" + interest
+12. DISPLAY "Simple interest on " + amount + " for " + duration + " years is: " + interest
 END
