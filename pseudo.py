@@ -53,6 +53,7 @@ replacements = [
 	("(String)", "str"),  # Needs brackets around argument: (String)(argument)
 	("(Integer)", "int"), # As above
 	("(Double)", "float"), # As above
+	("(Character)", "str"), # As above
 ]
 
 
@@ -60,14 +61,14 @@ replacements = [
 
 reFlags = re.VERBOSE # Allows whitespace in regexes. Also can add: "| re.IGNORECASE"
 
-rSetArray = re.compile(r"SET \s+ (\w+) \[", reFlags) # regex for SET array command
+rSetArray = re.compile(r"SET \s+ (\w+) \s* \[", reFlags) # regex for SET array command
 
 # regex for first part of DECLARE commands: everything up to the first comma
 reFirst = re.compile("""
-		DECLARE 							# Start of DECLARE statement
-	\s+	(?: CONSTANT | CONST )?				# (We ignore constants)
-	\s* ( \w+ )								# Type
-	\s+ ( \w+ )(?: \s* \[ \s* \] )?			# Variable name, possibly with [] if array
+		DECLARE                             # Start of DECLARE statement
+	\s+	(?: CONSTANT | CONST | Constant)?   # (We ignore constants)
+	\s* ( \w+ )                             # Type
+	\s+ ( \w+ )(?: \s* \[ \s* \] )?         # Variable name, possibly with [] if array
 	\s* """, reFlags)
 
 # regex for each (comma-separated) remaining part of a DECLARE command
@@ -91,13 +92,14 @@ def charat(s, i):
 	return s[i]
 
 def substr(s, a, b):
-	return s[a:b]
+	return s[a:(b+1)]
 
 def random(a, b):
 	return randrange(a, b + 1)
-
-print("(Remember to re-run 'pseudo.py' if you edit the source pseudocode!)")
 """
+
+preamble += f'print(f"{bcolors.BOLD}(Remember to re-run \'pseudo.py\' if you edit the source pseudocode!){bcolors.ENDC}")'
+
 
 
 ####################### Parse command line arguments #######################
@@ -110,23 +112,23 @@ parser.add_argument("dst", nargs="?", help="path to python destination file")
 args = parser.parse_args()
 
 if not args.src:
-	print("No source given, going to try and read from file: input.txt")
+	print(f"No source given, going to try and read from file: {bcolors.UNDERLINE}input.txt{bcolors.ENDC}")
 	src = "input.txt"
 else:
-	print(f"Going to try and read from file: {args.src}")
+	print(f"Going to try and read from file: {bcolors.UNDERLINE}{args.src}{bcolors.ENDC}")
 	src = args.src
 
 if not args.dst:
-	print("No destination given, going to try and write to file: output.py")
+	print(f"No destination given, going to try and write to file: {bcolors.UNDERLINE}output.py{bcolors.ENDC}")
 	dst = "output.py"
 else:
-	print(f"Going to try and write to file: {args.dst}")
+	print(f"Going to try and write to file: {bcolors.UNDERLINE}{args.dst}{bcolors.ENDC}")
 	dst = args.dst
 
 
 ####################### Pre-processing of input lines #######################
 
-print(f"Reading and processing input from {src}...")
+print(f"Reading and processing input from {bcolors.UNDERLINE}{src}{bcolors.ENDC}...")
 
 # A crude way to allow array assignment without allocation, e.g. SET x[100] = 42,
 # is to secretly make them Python dictionaries!
@@ -199,9 +201,10 @@ outputLines = [preamble]
 
 # Initialise the fake arrays which are actually dictionaries (see comment above)
 if arrayVars != set():
-	outputLines.append('# Initialise "arrays" (actually dictionaries, to simplify allocation)\n')
+	outputLines.append('\n# Initialise "arrays" (actually dictionaries, to simplify allocation)\n')
 	for var in arrayVars:
 		outputLines.append(var + " = {}")
+	outputLines.append('')
 
 outputLines.append("### Your converted code starts here ###\n")
 
@@ -232,33 +235,33 @@ for line in program:
 	elif line.startswith("DISPLAY"):
 		# Replace DISPLAY with print, and attempt to replace + with ,
 		# e.g. DISPLAY "aaa" + x + "bbb" + y ----> print("aaa", x, "bbb", y)
-		line = re.sub("DISPLAY ?", "print(", line).strip() + ")"
+		line = re.sub("DISPLAY ?", "print(", line).strip() + ", sep=\"\")"
 		line = re.sub('("[^"]*?")\s*\+\s*', '\\1, ', line)
 		output = re.sub('\s*\+\s*("[^"]*?")', ', \\1', line)
 	elif line.startswith("GET"):
 		variable = line.replace("GET", "").strip()
 		if variable not in varTypes:
-			print(f"{bcolors.WARNING}Warning: Line {lineNum}: GETting user input to variable {variable} with no declared type (assuming String){bcolors.ENDC}")
+			print(f'{bcolors.WARNING}Warning: Line {lineNum}: GETting user input to variable "{variable}" with no declared type (assuming String){bcolors.ENDC}')
 			varTypes[variable] = "str"
 		output = f"{variable} = {varTypes[variable]}(input('(Type in value for {variable} and press Enter): '))"
 	elif line.startswith("SET"):
 		output = line.replace("SET", "").strip()
 	elif line.startswith("OPEN"):
 		if filePath != None:
-			print(f"Error on line {lineNum}: Trying to OPEN a file but it appears a previous OPEN file {filePath} was not CLOSEd.")
+			print(f"{bcolors.FAIL}Error on line {lineNum}: Trying to OPEN a file but it appears a previous OPEN file {filePath} was not CLOSEd.{bcolors.ENDC}")
 			exit(1)
 		filePath = line.replace("OPEN", "").strip()
 		output = ""
 	elif line.startswith("CLOSE"):
 		if filePath == None:
-			print(f"Error on line {lineNum}: Trying to CLOSE a file but it appears no file was OPENed.")
+			print(f"{bcolors.FAIL}Error on line {lineNum}: Trying to CLOSE a file but it appears no file was OPENed.{bcolors.ENDC}")
 			exit(1)
 		filePath = None
 		fileOpen = False
 		output = "fp.close()"
 	elif line.startswith("READ"):
 		if filePath == None:
-			print("Error on line {lineNum}: Trying to READ data but it seems no file is OPEN")
+			print(f"{bcolors.FAIL}Error on line {lineNum}: Trying to READ data but it seems no file is OPEN.{bcolors.ENDC}")
 			exit(1)
 		if not fileOpen:
 			output = [f"fp = open({filePath}, 'r')"]
@@ -267,12 +270,12 @@ for line in program:
 			output = []
 		variable = line.replace("READ", "").strip()
 		if variable not in varTypes:
-			print(f"{bcolors.WARNING}Warning: Line {lineNum}: Reading from file into variable {variable} with no declared type (assuming String){bcolors.ENDC}")
+			print(f'{bcolors.WARNING}Warning: Line {lineNum}: Reading from file into variable "{variable}" with no declared type (assuming String){bcolors.ENDC}')
 			varTypes[variable] = "str"
 		output.append(f"{variable} = {varTypes[variable]}(fp.readline().replace('\\n', ''))")
 	elif line.startswith("WRITE"):
 		if filePath == None:
-			print("Error on line {lineNum}: Trying to WRITE data but it seems no file is OPEN")
+			print(f"{bcolors.FAIL}Error on line {lineNum}: Trying to WRITE data but it seems no file is OPEN.{bcolors.ENDC}")
 			exit(1)
 		if not fileOpen:
 			output = [f"fp = open({filePath}, 'w')"]
@@ -280,7 +283,7 @@ for line in program:
 		else:
 			output = []
 		expression = line.replace("WRITE", "").strip()
-		output.append(f"fp.writeline({expression})")
+		output.append(f"fp.write(str({expression}) + '\n')")
 	elif line.startswith("WHILE"):
 		whileLevel += 1
 		output = line.replace("WHILE", "while").strip() + ":"
@@ -300,7 +303,7 @@ for line in program:
 		output = ""
 		whileLevel -= 1
 	else:
-		print(f"Didn't understand line {lineNum}: {line}")
+		print(f'{bcolors.FAIL}Error: line {lineNum}: Couldn\'t understand line: "{line.strip()}"{bcolors.ENDC}')
 		exit(1)
 
 	indent = indentLevel * "    "
@@ -315,11 +318,11 @@ for line in program:
 
 ####################### Write output to destination path #######################
 
-print(f"Writing output file to {dst}...")
+print(f"Writing output file to {bcolors.UNDERLINE}{dst}{bcolors.ENDC}...")
 
 with open(dst, "w") as filePointer:
 	for outputLine in outputLines:
 		#print("Output: ", outputLine)
 		filePointer.write(outputLine + "\n")
 
-print(f'Done. You can now run: "python {dst}" ')
+print(f'Done. You can now run: {bcolors.BOLD}python {dst}{bcolors.ENDC} ')

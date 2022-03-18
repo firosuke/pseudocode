@@ -1,19 +1,19 @@
 PROGRAM CHECK EMAIL
-1. DECLARE String email ; // Declare email string
-2. DECLARE Boolean found ; // Declare Boolean for terminating condition
-3. DECLARE Integer counter ; // Declare counter to increment the CHARAT() index
-4. SET email = “admin@pl.com” ; // Initialise email string
-5. SET found = false ; // Initialise terminating condition variable
-6. SET counter = 0 ; // Initialise counter
-7. WHILE found == false // Terminating condition. Loop repeats while found = false
-8. IF CHARAT(email, counter) == “@” // Check character to see if it is “@”
-9. SET found = true ; // IF character is “@”, then set found = true
-10. ENDIF
-11. SET counter = counter + 1 ; // increment the counter by 1
+1.  DECLARE String email ; // Declare email string
+2.  DECLARE Boolean found ; // Declare Boolean for terminating condition
+3.  DECLARE Integer counter ; // Declare counter to increment the CHARAT() index
+4.  GET email ; // Get email string from user
+5.  SET found = false ; // Initialise terminating condition variable
+6.  SET counter = 0 ; // Initialise counter
+7.  WHILE found == false AND counter < LENGTH(email) // Terminating condition
+8.     IF CHARAT(email, counter) == “@” // Check character to see if it is “@”
+9.         SET found = true ; // IF character is “@”, then set found = true
+10.    ENDIF
+11.    SET counter = counter + 1 ; // increment the counter by 1
 12. ENDWHILE
-13. IF found == true // IF found == true, exit the loop and continue from here
-14. DISPLAY “Email contains @” ;
+13. IF found == true
+14.    DISPLAY “Email contains @” ;
 15. ELSE
-16. DISPLAY “Email does not contain @” ;
+16.    DISPLAY “Email does not contain @” ;
 17. ENDIF
 END

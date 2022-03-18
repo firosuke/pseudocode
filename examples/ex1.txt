@@ -1,9 +1,25 @@
-PROGRAM Exam Scores
-1. DECLARE Double examScores [] ;
-2. SET examScores [0] = 22 ;
-3. SET examScores [1] = 44 ;
-4. SET examScores [2] = 67 ;
-5. SET examScores [3] = 45 ;
-6. SET examScores [4] = 74 ;
-7. DISPLAY LENGTH(examScores[]);
-END
+DECLARE String userStr;
+DECLARE Character userChr;
+DECLARE Integer currentIndex;
+GET userStr;
+GET userChr;
+SET found = false;
+SET repeat = true;
+SET currentIndex = 0;
+WHILE repeat;
+	IF CHARAT(userStr, currentIndex) == userChr
+		SET found = true;
+		SET repeat = false;
+	ELSE
+		SET currentIndex = currentIndex + 1;
+
+		IF currentIndex == LENGTH(userStr)
+			SET repeat = false;
+		ENDIF;
+	ENDIF;
+ENDWHILE;
+IF found
+	DISPLAY CONCAT("Found ", userChr, " at position ", currentIndex);
+ELSE
+	DISPLAY CONCAT("Did not find", userChr)
+ENDIF;

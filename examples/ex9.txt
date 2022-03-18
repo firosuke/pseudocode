@@ -1,14 +1,21 @@
-PROGRAM SCORE AVERAGE
-1. DECLARE Integer productPrice ;
-2. DECLARE Integer numPurchased ;
-3. DECLARE Double totalPrice ;
-4. OPEN “priceIndex.xml” ;
-5. READ productPrice ;
-// product price is stored as a string value in the file
-6. CLOSE “priceIndex.xml” ;
-7. SET productPrice = productPrice ;
-8. GET numPurchased ;
-9. SET totalPrice = productPrice * numPurchased ;
-// Cannot multiply integer and string
-10. DISPLAY “The total price is ” + totalPrice ;
+PROGRAM CHECK EMAIL
+1.  DECLARE String email ;
+2.  DECLARE Boolean found, runLoop ;
+3.  DECLARE Integer counter ; 
+4.  GET email ;
+5.  SET found = false ;
+6.  SET counter = 0 ;
+6.  SET runLoop = (found == false AND counter < LENGTH(email)) // Calculate a boolean
+7.  WHILE runLoop
+8.     IF CHARAT(email, counter) == “@”
+9.         SET found = true ;
+10.    ENDIF
+11.    SET counter = counter + 1 ;
+11.	   SET runLoop = (found == false AND counter < LENGTH(email))
+12. ENDWHILE
+13. IF found == true
+14.    DISPLAY “Email contains @” ;
+15. ELSE
+16.    DISPLAY “Email does not contain @” ;
+17. ENDIF
 END
