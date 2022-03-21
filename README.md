@@ -1,8 +1,12 @@
 # pseudocode
 
-This is a script to convert pseudocode (as taught at Birkbeck College London) into a python script, which you can then run to see your pseudocode in action.
+This is a script to convert pseudocode (as taught at Birkbeck College London) into a python script, which you can then run to see your pseudocode in action. 
 
-It is not complete, but it should work for "simple" pseudocode.
+(You need to have Python installed on your computer -- do an internet search on how to install this, if you need to. Or copy-and-paste the python files into an online Python interpreter like this one: https://replit.com/ )
+
+There are example pseudocode scripts (ex1.txt - ex15.txt) in the examples folder, and the resulting python scripts (ex1.py - ex15.py) in the converted folder.
+
+The converter will not work for all examples, but it should work for "simple" pseudocode.
 There is a limited set of pseudocode commands it can recognise. These are described below in the section "Supported Pseudocode". If you don't type these as specified, it may fail.
 
 If there are errors in the pseudocode, the conversion can catch some of them (e.g. an IF without an ENDIF) but it will not catch others (e.g. an ELSEIF after an ELSE, within the same IF statement), otherwise the script would have to do more complicated checks... and I have other things to do :-) 
