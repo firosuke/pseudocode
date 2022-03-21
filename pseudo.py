@@ -82,6 +82,9 @@ preamble = """### Implementations of pseudocode methods in Python (ignore this p
 
 from random import randrange
 
+def display(*args):
+	print(*args, sep="")
+
 def concat(*args):
 	result = ""
 	for x in args:
@@ -96,9 +99,10 @@ def substr(s, a, b):
 
 def random(a, b):
 	return randrange(a, b + 1)
+
 """
 
-preamble += f'print(f"{bcolors.BOLD}(Remember to re-run \'pseudo.py\' if you edit the source pseudocode!){bcolors.ENDC}")'
+preamble += f'print(f"{bcolors.BOLD}(Remember to re-run \'pseudo.py\' if you edit the source pseudocode!){bcolors.ENDC}")\n'
 
 
 
@@ -233,9 +237,9 @@ for line in program:
 	elif line == "" or line.isspace(): # Empty line
 		output = ""
 	elif line.startswith("DISPLAY"):
-		# Replace DISPLAY with print, and attempt to replace + with ,
-		# e.g. DISPLAY "aaa" + x + "bbb" + y ----> print("aaa", x, "bbb", y)
-		line = re.sub("DISPLAY ?", "print(", line).strip() + ", sep=\"\")"
+		# Replace DISPLAY with display() method (see preamble), and replace + with ,
+		# e.g. DISPLAY "aaa" + x + "bbb" + y ----> display("aaa", x, "bbb", y)
+		line = re.sub("DISPLAY ?", "display(", line).strip() + ")"
 		line = re.sub('("[^"]*?")\s*\+\s*', '\\1, ', line)
 		output = re.sub('\s*\+\s*("[^"]*?")', ', \\1', line)
 	elif line.startswith("GET"):
@@ -300,7 +304,7 @@ for line in program:
 		if ifLevel == 0:
 			print(f"{bcolors.FAIL}Error on line {lineNum}: ELSEIF with no preceding IF.{bcolors.ENDC}")
 			exit(1)
-		output = line.replace("ELIF", "elif")
+		output = line.replace("ELIF", "elif").strip() + ":"
 		indentLevel -= 1
 	elif line.startswith("ENDIF"):
 		if ifLevel == 0:

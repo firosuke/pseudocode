@@ -1,21 +1,29 @@
-PROGRAM CHECK EMAIL
+PROGRAM CHECK EMAIL // Added extra DISPLAY statements so you can see what is happening
 1.  DECLARE String email ;
 2.  DECLARE Boolean found, runLoop ;
-3.  DECLARE Integer counter ; 
+3.  DECLARE Integer index ; 
 4.  GET email ;
 5.  SET found = false ;
-6.  SET counter = 0 ;
-6.  SET runLoop = (found == false AND counter < LENGTH(email)) // Calculate a boolean
-7.  WHILE runLoop
-8.     IF CHARAT(email, counter) == “@”
-9.         SET found = true ;
-10.    ENDIF
-11.    SET counter = counter + 1 ;
-11.	   SET runLoop = (found == false AND counter < LENGTH(email))
-12. ENDWHILE
-13. IF found == true
-14.    DISPLAY “Email contains @” ;
-15. ELSE
-16.    DISPLAY “Email does not contain @” ;
-17. ENDIF
+6.  SET index = 0 ;
+7.  SET runLoop = (found == false AND index < LENGTH(email)) ; // Calculate a boolean
+8.  DISPLAY "Email is: " + email ;
+9.  DISPLAY "About to enter loop" ;
+10. WHILE runLoop // you can also replace this "runLoop" with the right-hand side of line 7
+11.    DISPLAY "index is " + index ;
+12.    DISPLAY "--Character at this index: " + CHARAT(email, index) ;
+13.    IF CHARAT(email, index) == “@”
+14.        DISPLAY "----Found the @ symbol" ;
+15.        SET found = true ;
+16.    ELSE
+17.        DISPLAY "----It is not the @ symbol" ;
+18.    ENDIF
+19.    SET index = index + 1 ;
+20.    SET runLoop = (found == false AND index < LENGTH(email)) ;
+21.    DISPLAY "--Value of runLoop: " + runLoop ;
+22. ENDWHILE
+23. IF found == true
+24.    DISPLAY “Email contains @” ;
+25. ELSE
+26.    DISPLAY “Email does not contain @” ;
+27. ENDIF
 END

@@ -1,0 +1,28 @@
+DECLARE Integer integers[], index, totalScore, highest
+DISPLAY "Starting program"
+SET integers[0] = 98
+SET integers[1] = 55
+SET integers[2] = 98
+SET integers[3] = 32
+SET index = 0
+SET highest = -1
+DISPLAY "Index is:" + index
+DISPLAY "Highest is:" + highest
+DISPLAY "Starting the loop"
+WHILE index < 4
+	DISPLAY "Just entered the loop, index is:" + index
+	DISPLAY "The next integer is:" + integers[index]	
+	IF integers[index] > highest
+		DISPLAY "New highest number"
+		SET highest = integers[index]
+	ELSE IF integers[index] == highest
+		DISPLAY "This is the same as the highest so far"
+	ELSE // it must be smaller
+		DISPLAY "This is smaller than the highest so far"
+	ENDIF
+	DISPLAY "highest is now:" + highest
+	SET index = index + 1
+ENDWHILE
+DISPLAY "Loop finished"
+DISPLAY "Highest is:" + highest
+END
